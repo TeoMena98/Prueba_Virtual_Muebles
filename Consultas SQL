@@ -1,0 +1,19 @@
+Prueba 1
+
+SELECT sku "Codigo de producto",SUM(cantidad)"total cantidades",cantidad*precio_unitario"valor venta",costo_unitario*cantidad "total costo"
+FROM facturacion_detalle  GROUP BY sku;
+   
+   
+
+Prueba 2
+
+SELECT
+fecha_realizacion AS "Fecha venta",documento  "Doc cliente",nombre "Nombre cliente",
+CONCAT_WS('-', f.fact_prefijo, f.fact_consecutivo) "Consecutivo de venta",
+SUM(fd.cantidad) "Total Cantidad", (((fd.cantidad*fd.precio_unitario)+fd.iva)-fd.descuento) "Total venta", SUM(fd.iva) "Total IVA"
+FROM facturacion f, facturacion_detalle fd, tercero t
+WHERE	f.id_tercero=t.id_tercero AND f.id_factura=fd.id_factura
+GROUP BY CONCAT_WS('-', f.fact_prefijo, f.fact_consecutivo)
+ORDER BY fecha_registro, fecha_realizacion
+   
+   
